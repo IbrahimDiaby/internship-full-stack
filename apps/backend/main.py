@@ -1,15 +1,22 @@
-from typing import Union
-
 from fastapi import FastAPI
+from controllers.auth.auth import auth_router
+from models.database import create_db
 
-app = FastAPI()
+app = FastAPI(title="Internship-full-stack")
 
+app.include_router(auth_router, prefix="/api")
+
+@app.on_event("startup")
+def on_startup():
+    create_db()
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World"}
+def index():
+    return {"id": 1, "name": "Test", "comment": "bien" }
 
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
+if __name__ == "__main__":
+    import uvicorn
+
+    uvicorn.run(app, host="127.0.0.1", port=8000)
+
