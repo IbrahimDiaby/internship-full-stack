@@ -4,3 +4,7 @@ aiosqlite
 sqlalchemy
 python-dotenv
 bcrypt
+PyJWT
+cryptography
+#python-jose
+passlib

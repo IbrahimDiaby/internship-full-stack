@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 class AuthResponse(BaseModel):
-    id: int
+    id: str
     email:  str
 
     class Config:

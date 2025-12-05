@@ -4,6 +4,8 @@ from models.database import create_db
 
 app = FastAPI(title="Internship-full-stack")
 
+# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
 app.include_router(auth_router, prefix="/api")
 
 @app.on_event("startup")
