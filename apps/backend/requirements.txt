@@ -2,9 +2,10 @@ fastapi
 uvicorn
 aiosqlite
 sqlalchemy
+aiosqlite
 python-dotenv
-bcrypt
+#passlib[bcrypt] # My OS doesn't accepted this
+passlib[bcrypt-cffi]
 PyJWT
-cryptography
-#python-jose
-passlib
+python-multipart
+pydantic[email]

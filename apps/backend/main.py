@@ -4,17 +4,11 @@ from models.database import create_db
 
 app = FastAPI(title="Internship-full-stack")
 
-# pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-
 app.include_router(auth_router, prefix="/api")
 
 @app.on_event("startup")
 def on_startup():
     create_db()
-
-@app.get("/")
-def index():
-    return {"id": 1, "name": "Test", "comment": "bien" }
 
 
 if __name__ == "__main__":

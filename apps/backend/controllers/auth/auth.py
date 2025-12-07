@@ -1,30 +1,19 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, status
+from sqlalchemy.orm import Session
+from models.database import get_db
+from models.schemas import UserRequestSchema, UserResponseSchema, TokenSchema
+from services.auth import create_user, authenticate_user, get_current_user
 
-from models.database import SessionLocal
-from models.schemas import UserRequestSchema
-from services.auth import create, login, get_token_header
+auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
-auth_router = APIRouter(
-    prefix="/auth",
-    tags=["auth"]
-)
+@auth_router.post("/signup", response_model=UserResponseSchema, status_code=status.HTTP_201_CREATED)
+def signup(request: UserRequestSchema, db: Session = Depends(get_db)):
+    return create_user(db=db, new_user=request)
 
-@auth_router.post("/signup", summary="Create a new User", description="Create a new user")
-def signup(email:str, password:str):
-    request = UserRequestSchema(email=email, password=password)
-    new_user = create(db=SessionLocal, new_user=request)
-    return new_user
+@auth_router.post("/login", response_model=TokenSchema)
+def login(request: UserRequestSchema, db: Session = Depends(get_db)):
+    return authenticate_user(db=db, user=request)
 
-@auth_router.post("/login", summary="Authenticate user and get JWT", description="Authenticate user and get JWT")
-def login(email:str, password:str):
-    request = UserRequestSchema(email=email, password=password)
-    user = login(db=SessionLocal, user=request)
-    return user
-
-
-@auth_router.get("/me", summary="Get current user info (protected)", description="Get current user info (protected)",
-    dependencies=[Depends(get_token_header)],
-    responses={404: {"description": "Not found"}},)
-def me():
-    return get_token_header()
-
+@auth_router.get("/me", response_model=UserResponseSchema)
+def me(current_user: UserResponseSchema = Depends(get_current_user)):
+    return current_user
