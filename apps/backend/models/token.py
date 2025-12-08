@@ -1,11 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, UTC
 from typing import Optional
 from fastapi import HTTPException, status
 import jwt
 from fastapi.security import HTTPBearer
 from jwt.exceptions import InvalidTokenError
 from models.schemas import UserRequestSchema, UserResponseSchema, TokenSchema
-from models.users import User
+from models.users import Users
 from models.database import get_db
 import os
 from dotenv import load_dotenv
@@ -21,7 +21,7 @@ class Token:
 
     def create_access_token(self, data: dict, expires_delta: Optional[timedelta] = None) -> str:
         to_encode = data.copy()
-        expire = datetime.utcnow() + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
+        expire = datetime.now(UTC) + (expires_delta or timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
         to_encode.update({"exp": expire})
         return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 

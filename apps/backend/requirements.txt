@@ -5,6 +5,7 @@ sqlalchemy
 aiosqlite
 python-dotenv
 #passlib[bcrypt] # My OS doesn't accepted this
+openai
 passlib[bcrypt-cffi]
 PyJWT
 python-multipart

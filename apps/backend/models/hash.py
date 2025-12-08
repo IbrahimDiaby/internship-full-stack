@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 from models.schemas import UserRequestSchema, UserResponseSchema, TokenSchema
-from models.users import User
+from models.users import Users
 from models.database import get_db
 
 class Hash:
