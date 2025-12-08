@@ -4,8 +4,8 @@ from services.auth import get_current_user
 from services.ai import generate_workout_program
 
 ai_router = APIRouter(
-    prefix="/api/ai",
-    tags=["ai"]
+    prefix="/ai",
+    tags=["AI (LLM)"]
 )
 
 

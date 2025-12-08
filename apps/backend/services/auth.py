@@ -13,17 +13,21 @@ HASH = Hash()
 def create_user(db: Session, new_user: UserRequestSchema) -> UserResponseSchema:
     existing_user = db.query(Users).filter(Users.email == new_user.email).first()
     if existing_user:
-        raise HTTPException(status_code=400, detail="Email already registered")
-    hashed_password = HASH.hash_password(new_user.password)
-    db_user = Users(email=new_user.email, hashed_password=hashed_password)
-    db.add(db_user)
-    db.commit()
-    db.refresh(db_user)
+        raise HTTPException(status_code=409, detail="Email already registered")
+    try:
+        hashed_password = HASH.hash_password(new_user.password)
+        db_user = Users(email=new_user.email, password=hashed_password)
+        db.add(db_user)
+        db.commit()
+        db.refresh(db_user)
+    except:
+        raise HTTPException(status_code=400, detail="Validation error")
+
     return UserResponseSchema(id=db_user.id, email=db_user.email, created_at=db_user.created_at)
 
 def authenticate_user(db: Session, user: UserRequestSchema) -> TokenSchema:
     db_user = db.query(Users).filter(Users.email == user.email).first()
-    if not db_user or not HASH.verify_password(user.password, db_user.hashed_password):
+    if not db_user or not HASH.verify_password(user.password, db_user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",

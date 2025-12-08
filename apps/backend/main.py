@@ -1,4 +1,6 @@
 from fastapi import FastAPI
+
+from controllers.ai.ai import ai_router
 from controllers.auth.auth import auth_router
 from models.database import create_db
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/api")
+app.include_router(ai_router, prefix="/api")
 
 @app.on_event("startup")
 def on_startup():

@@ -20,5 +20,7 @@ def get_db():
         db.close()
 
 def create_db():
+    from models.users import Users
+    from models.programs import Programs
     Base.metadata.create_all(bind=engine)
 
