@@ -10,7 +10,7 @@ ai_router = APIRouter(
 
 
 @ai_router.post(
-    "/program",
+    "/generate-program",
     summary="Generate AI workout program",
     description="Generate a structured workout program from free-form text using AI",
     response_model=ProgramResponseSchema,
