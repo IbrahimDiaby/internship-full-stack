@@ -1,18 +1,33 @@
-interface Exercise {
-    id: string;
-    name: string;
-    sets: string;
-    reps: number;
+interface Program {
+  program_name: string;
+  description: string;
+  total_weeks: number;
+  workout_days: WorkoutPlan[];
 }
 
-interface Workout {
-    id: string;
-    day: Day;
-    summary: string;
-    exercises: Array<Exercise>;
-    calories: string;
+interface WorkoutPlan {
+    day: number;
+    focus_area: string;
+    duration_minutes: number;
+    equipment: string[];
+    warmup: string[];
+    exercises: Exercise[];
+    cooldown: string[];
+    estimated_calories: number;
+}
+
+interface Exercise {
+    name: string;
+    sets: number;
+    reps: string;
+    rest_seconds: number;
+    notes: string;
 }
 
 export {
-    Workout
+    WorkoutPlan,
+    Exercise,
+    Seance,
+    Program
 }
+
