@@ -7,7 +7,7 @@ class CONFIG_AI:
     load_dotenv()
 
     client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
-    MODEL = "gpt-5-mini"
+    MODEL = "gpt-5-mini" # gpt-5-nano
     MAX_RETRIES = 3
 
     SYSTEM_PROMPT = """You are an expert fitness coach AI. Generate a structured workout program based on user input.
