@@ -6,17 +6,32 @@ import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Workout } from "@/lib/types";
 import { fakeData } from "@/lib/constants";
+import jwt from "jsonwebtoken";
+import { logout } from "@/lib/functions";
+import { useEffect } from "react";
+import { redirect } from "next/navigation";
 
 export default function GenerateProgramPage() {
   const [inputText, setInputText] = useState("");
   const [loading, setLoading] = useState(false);
   const [workouts, setWorkouts] = useState<Array<Workout>>([...fakeData]);
 
+  const token = localStorage.getItem("token") ?? "";
+  useEffect(() => {
+    if (token === "") redirect("/auth");
+  }, [token]);
+
+  const payload = jwt.decode(token!);
+  const user = {
+    email: payload?.sub,
+    user_id: payload?.user_id,
+  };
+
   const handleGenerate = async () => {
     setLoading(true);
     setWorkouts([]);
 
-    const response = await fetch("/api/generate-program", {
+    const response = await fetch("/api/ai/generate-program", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ prompt: inputText }),
@@ -29,6 +44,17 @@ export default function GenerateProgramPage() {
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-center">
+        <h1>
+          Connected : <span className="font-bold">{user?.email}</span>
+        </h1>
+        <button
+          className="cursor-pointer bg-red-500 hover:bg-red-400 transition delay-75 duration-500 p-2 text-white font-bold rounded-2xl"
+          onClick={() => logout()}
+        >
+          Déconnexion
+        </button>
+      </div>
       <h1 className="text-3xl font-bold">
         Generate Your Perfect Sport Program
       </h1>

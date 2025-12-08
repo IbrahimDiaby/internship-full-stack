@@ -88,9 +88,10 @@ function SignInForm() {
 
       const json = await res.json();
       if (!res.ok) throw new Error(json?.message || "Sign in failed");
-
+      
+      localStorage.setItem("token", json?.access_token);
       // assume backend returns { ok: true }
-      router.push(json?.redirect || "/program");
+      router.push(json?.redirect || "/dashboard");
     } catch (err: any) {
       setError(err?.message ?? "Something went wrong");
     } finally {
