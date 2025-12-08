@@ -258,4 +258,15 @@ const fakeData = {
   ]
 }
 
-export { fakeData };
+const EquipmentIcons: Record<string, string> = {
+  bodyweight: "🤸",
+  dumbbells: "🏋️",
+  barbell: "💪",
+  resistance_bands: "🎗️",
+  kettlebell: "⚫",
+  pull_up_bar: "🏃",
+  bench: "🪑",
+  machine: "⚙️"
+};
+
+export { fakeData, EquipmentIcons };

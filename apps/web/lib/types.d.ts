@@ -2,10 +2,10 @@ interface Program {
   program_name: string;
   description: string;
   total_weeks: number;
-  workout_days: WorkoutPlan[];
+  workout_days: WorkoutDay[];
 }
 
-interface WorkoutPlan {
+interface WorkoutDay {
     day: number;
     focus_area: string;
     duration_minutes: number;
@@ -25,9 +25,8 @@ interface Exercise {
 }
 
 export {
-    WorkoutPlan,
+    WorkoutDay,
     Exercise,
-    Seance,
     Program
 }
 
