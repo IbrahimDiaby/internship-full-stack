@@ -80,7 +80,7 @@ function SignInForm() {
 
     setLoading(true);
     try {
-      const res = await fetch("/api/auth/signin", {
+      const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),
@@ -90,7 +90,7 @@ function SignInForm() {
       if (!res.ok) throw new Error(json?.message || "Sign in failed");
 
       // assume backend returns { ok: true }
-      router.push(json?.redirect || "/");
+      router.push(json?.redirect || "/program");
     } catch (err: any) {
       setError(err?.message ?? "Something went wrong");
     } finally {
@@ -157,8 +157,8 @@ function SignUpForm() {
 
       const json = await res.json();
       if (!res.ok) throw new Error(json?.message || "Sign up failed");
-
-      router.push(json?.redirect || "/");
+      
+      router.push(json?.redirect || "/auth");
     } catch (err: any) {
       setError(err?.message ?? "Something went wrong");
     } finally {
